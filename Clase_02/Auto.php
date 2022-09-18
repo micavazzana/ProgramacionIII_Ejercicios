@@ -72,5 +72,38 @@ class Auto
             return 0;
         }
     }
+
+
+    ////   EJERCICIO 19 - POO + ARCHIVOS   ////
+
+    static function ImprimirAuto(Auto $auto)
+    {
+        return
+        $auto->_marca . "," .
+        $auto->_color . "," .
+        $auto->_precio . "," .
+        $auto->_fecha->format("d-m-Y") . PHP_EOL;
+    }
+    static function altaAuto($autos)//en vez de recibir un solo auto recibir un array
+    {
+        $archivo = fopen("autos.csv","a+");
+        //hago un foreach $autos as $auto
+        foreach($autos as $auto)
+        {
+            fwrite($archivo, Auto::ImprimirAuto($auto));
+        }
+        fclose($archivo);
+    }   
+
+    static function leerAutos()
+    {
+        $archivo = fopen("autos.csv","r");
+        
+        while(!feof($archivo))
+        {
+            echo fgets($archivo) . "<br>";
+        }
+        fclose($archivo);
+    }
 }
 ?>

@@ -35,11 +35,11 @@ class Garage
     {
         $cadena = "<br>Razon Social: $this->_razonSocial" . 
         "<br>Precio por hora: $this->_precioPorHora" .
-        "<br>Autos: <br>";
+        "<br><br>Autos: ";
         
         foreach($this->_autos as $a)
         {
-            $cadena .= "<br>". $a->MostrarAuto();
+            $cadena .= "<br>". $a->MostrarAuto($a);
         }
         return $cadena;
     }
@@ -47,9 +47,9 @@ class Garage
     //objeto de tipo Auto. Sólo devolverá TRUE si el auto está en el garaje.
     function Equals(Auto $a)
     {
-        foreach($this->_autos as $autoExiste)
+        foreach($this->_autos as $auto)
         {
-            if($autoExiste->Equals($a))
+            if($a->Equals($auto))
             {
                 return true;
             }
@@ -64,6 +64,10 @@ class Garage
         {
             array_push($this->_autos,$a);
         }
+        else //el auto ya esta agregado
+        {
+            return -1;
+        }
     }
     //Crear el método de instancia “Remove” para que permita quitar un objeto “Auto” del
     //“Garage” (sólo si el auto está en el garaje, de lo contrario informarlo). Ejemplo: $miGarage->Remove($autoUno);
@@ -71,10 +75,15 @@ class Garage
     {
         if($this->Equals($a))
         {
-            $key = array_search($a,$this->_autos); //https://www.w3schools.com/php/func_array_search.asp
-            array_splice($this->_autos,$key); //???????????????????
+            $key = array_search($a,$this->_autos);
+            //unset($this->_autos[$key]);
+            //unset borra directamente/ usar splice:
+            array_splice($this->_autos,$key); 
+        }
+        else //no existe el auto
+        {
+            return -1;
         }
     }
-
 }
 ?>
